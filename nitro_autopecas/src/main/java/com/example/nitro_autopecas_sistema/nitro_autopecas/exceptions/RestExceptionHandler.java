@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 @RestControllerAdvice
 public class RestExceptionHandler {
@@ -32,13 +34,39 @@ public class RestExceptionHandler {
 
     @ExceptionHandler(DataIntegrityViolationException.class)
     public ResponseEntity<MensagemErroPadrao> tratarErroDeDuplicidade(DataIntegrityViolationException ex) {
+        String mensagemCausa = ex.getMostSpecificCause().getMessage();
+
+        // 1. Imprime o erro original no console do IntelliJ para você depurar se precisar
+        System.out.println("ERRO BRUTO DO BANCO: " + mensagemCausa);
+
+        String campoDuplicado = "dado não identificado";
+
+        // 2. Procura por "Key" (Inglês) ou "Chave" (Português)
+        Pattern pattern = Pattern.compile("(?:Key|Chave) \\((.*?)\\)=");
+        Matcher matcher = pattern.matcher(mensagemCausa);
+
+        if (matcher.find()) {
+            campoDuplicado = matcher.group(1).toUpperCase();
+
+            if (campoDuplicado.equals("LOGIN")) {
+                campoDuplicado = "E-MAIL DE ACESSO";
+            }
+        } else {
+            // 3. Plano B: Se o Regex falhar, procura os nomes das colunas direto na mensagem
+            String msgLower = mensagemCausa.toLowerCase();
+            if (msgLower.contains("cpf")) campoDuplicado = "CPF";
+            else if (msgLower.contains("email")) campoDuplicado = "E-MAIL";
+            else if (msgLower.contains("contato")) campoDuplicado = "CONTATO";
+            else if (msgLower.contains("login")) campoDuplicado = "E-MAIL DE ACESSO";
+        }
+
         MensagemErroPadrao erro = new MensagemErroPadrao(
                 HttpStatus.CONFLICT.value(),
-                "Erro de integridade: O dado informado já está em uso no sistema."
+                "Erro de integridade: O campo '" + campoDuplicado + "' já está em uso no sistema."
         );
+
         return ResponseEntity.status(HttpStatus.CONFLICT).body(erro);
     }
-
     @ExceptionHandler(MethodArgumentTypeMismatchException.class)
     public ResponseEntity<MensagemErroPadrao> tratarErroTipoDados(MethodArgumentTypeMismatchException ex) {
         String mensagem = "O parâmetro '" + ex.getName() + "' recebeu um valor inválido: '" + ex.getValue() + "'.";

@@ -60,6 +60,7 @@ public class ClienteService {
         repository.save(cliente);
         return new DadosDetalhamentoClienteDto(cliente);
     }
+    @Transactional
     public DadosDetalhamentoClienteDto atualizar(Long id, DadosAtualizarClienteDto dto, Usuario usuarioLogado) {
         Cliente clienteAntigo = repository.findById(id).orElseThrow(() -> new IllegalArgumentException("Cliente para atualizar não encontrado!"));
         boolean ehDono = clienteAntigo.getUsuario().getId().equals(usuarioLogado.getId());
@@ -93,25 +94,26 @@ public class ClienteService {
 
         return new DadosDetalhamentoClienteDto(clienteAntigo);
     }
+    @Transactional
     public void excluirUsuarioId(Long idAlvo, Usuario usuarioLogado) {
 
-        Usuario usuarioAlvo = usuarioLoginRepository.findById(idAlvo).orElseThrow(() -> new IllegalArgumentException("Usuário não encontrado!"));
+        Cliente clienteAlvo = repository.findById(idAlvo)
+                .orElseThrow(() -> new IllegalArgumentException("Cliente não encontrado!"));
+
+        Usuario usuarioAlvo = clienteAlvo.getUsuario();
 
         boolean ehAdmin = usuarioLogado.getPerfil() == Perfil.FUNCIONARIO;
         boolean ehDono = usuarioAlvo.getId().equals(usuarioLogado.getId());
+
         if (!ehAdmin && !ehDono) {
-            throw new IllegalArgumentException("Você não tem permissão para deletar este usuário!");
+            throw new IllegalArgumentException("Você não tem permissão para deletar este cliente!");
         }
-
-        Cliente clienteAlvo = repository.findByUsuarioId(usuarioAlvo.getId()).orElseThrow(() -> new IllegalArgumentException("Cliente atrelado a este usuário não encontrado!"));
-
-        usuarioAlvo.setAtivo(false);
         clienteAlvo.setAtivo(false);
+        usuarioAlvo.setAtivo(false);
 
-        usuarioLoginRepository.save(usuarioAlvo);
         repository.save(clienteAlvo);
+        usuarioLoginRepository.save(usuarioAlvo);
     }
-
     public List<DadosDetalhamentoClienteDto> listarUsuarios(Usuario usuarioLogado) {
         boolean ehAdmin = usuarioLogado.getPerfil() == Perfil.FUNCIONARIO;
         if (!ehAdmin) {

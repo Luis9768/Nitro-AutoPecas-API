@@ -48,7 +48,7 @@ public class ClienteController {
         return ResponseEntity.ok(service.listarUsuarios(usuarioLogado));
     }
 
-    @PreAuthorize("hasRole('FUNCIONARIO')")
+    //@PreAuthorize("hasRole('FUNCIONARIO')")
     @GetMapping("/buscarPorNome/{nome}")
     public ResponseEntity<List<DadosDetalhamentoClienteDto>> buscarClienteNome (@PathVariable String nome, @AuthenticationPrincipal Usuario usuarioLogado){
         var buscarNome = service.pesquisarPorNome(nome,  usuarioLogado);

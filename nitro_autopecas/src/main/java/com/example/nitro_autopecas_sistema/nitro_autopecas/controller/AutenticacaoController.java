@@ -29,13 +29,10 @@ public class AutenticacaoController {
 
             var authenticationToken = new UsernamePasswordAuthenticationToken(dados.login(), dados.senha());// Cria o token de dados (login/senha)
 
-            // Autentica no banco
             var authentication = manager.authenticate(authenticationToken);
 
-            // Gera o JWT
             var tokenJWT = tokenService.gerarToken((Usuario) authentication.getPrincipal());
 
-            // Devolve
             return ResponseEntity.ok(new DadosTokenJWT(tokenJWT));
         } catch (RuntimeException e) {
             e.printStackTrace();

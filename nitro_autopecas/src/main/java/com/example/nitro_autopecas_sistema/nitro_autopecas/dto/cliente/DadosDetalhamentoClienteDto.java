@@ -7,7 +7,8 @@ public record DadosDetalhamentoClienteDto(
         String nome,
         String cpf,
         String contato,
-        String email
+        String email,
+        Boolean ativo
 ) {
     public DadosDetalhamentoClienteDto(Cliente cliente) {
         this(
@@ -15,7 +16,8 @@ public record DadosDetalhamentoClienteDto(
                 cliente.getNome(),
                 cliente.getCpf(),
                 cliente.getContato(),
-                cliente.getEmail()
+                cliente.getEmail(),
+                cliente.getAtivo()
         );
     }
 }

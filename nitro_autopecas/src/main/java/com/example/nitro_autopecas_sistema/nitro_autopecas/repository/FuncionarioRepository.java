@@ -6,10 +6,10 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
 import java.util.Optional;
 
-public interface FuncionarioRepository extends JpaRepository<Funcionario, Integer> {
+public interface FuncionarioRepository extends JpaRepository<Funcionario, Long> {
     Optional<Funcionario> findByCpf(String cpf);
     Optional<Funcionario> findByEmail(String email);
-    Optional<Funcionario> findByUsuarioId(Integer id);
+    Optional<Funcionario> findByUsuarioId(Long id);
     boolean existsByCpf(String cpf);
     boolean existsByEmail(String email);
     boolean existsByContato(String contato);

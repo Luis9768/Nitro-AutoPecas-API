@@ -3,10 +3,7 @@ package com.example.nitro_autopecas_sistema.nitro_autopecas.controller;
 import com.example.nitro_autopecas_sistema.nitro_autopecas.dto.cargoDto.DadosAtualizarCargoDto;
 import com.example.nitro_autopecas_sistema.nitro_autopecas.dto.cargoDto.DadosCadastroCargoDto;
 import com.example.nitro_autopecas_sistema.nitro_autopecas.dto.cargoDto.DadosDetalhamentoCargoDto;
-import com.example.nitro_autopecas_sistema.nitro_autopecas.dto.cliente.DadosCadastroClienteDto;
-import com.example.nitro_autopecas_sistema.nitro_autopecas.dto.cliente.DadosDetalhamentoClienteDto;
 import com.example.nitro_autopecas_sistema.nitro_autopecas.service.CargoService;
-import com.example.nitro_autopecas_sistema.nitro_autopecas.service.ClienteService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -14,7 +11,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
-import java.security.PublicKey;
 import java.util.List;
 
 @RestController
@@ -36,6 +32,7 @@ public class CargoController {
     public ResponseEntity<List<DadosDetalhamentoCargoDto>> listar(){
         return ResponseEntity.ok(service.listar());
     }
+
     @PutMapping
     @PreAuthorize("hasRole('FUNCIONARIO')")
     public ResponseEntity<DadosDetalhamentoCargoDto> atualizar(@PathVariable Long id, @Valid @RequestBody DadosAtualizarCargoDto dto){
@@ -45,6 +42,7 @@ public class CargoController {
         }
         return ResponseEntity.ok(cargoDto);
     }
+
     @DeleteMapping
     @PreAuthorize("hasRole('FUNCIONARIO')")
     public ResponseEntity<Void> deletar(@PathVariable Long id){
