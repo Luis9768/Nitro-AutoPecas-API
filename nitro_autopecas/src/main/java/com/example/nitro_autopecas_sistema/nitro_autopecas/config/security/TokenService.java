@@ -15,10 +15,13 @@ import java.time.ZoneOffset;
 @Service
 public class TokenService {
 
-    @Value("${api.security.token.secret}") // Pega a senha do application.properties
+    @Value("${api.security.token.secret}")
     private String secret;
 
     public String gerarToken(Usuario usuario) {
+        if(usuario.getAtivo() == false){
+            throw new IllegalArgumentException("Usuário inátivo.");
+        }
         try {
             var algoritmo = Algorithm.HMAC256(secret);
             String perfilString = (usuario.getPerfil() != null) ? usuario.getPerfil().toString() : "CLIENTE";

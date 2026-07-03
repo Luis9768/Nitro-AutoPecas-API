@@ -40,4 +40,12 @@ public class Cliente {
 
     private Boolean ativo = true;
 
+    private String cep;
+    private String logradouro;
+    private String numero;
+    private String complemento;
+    private String bairro;
+    private String cidade;
+    private String estado;
+
 }

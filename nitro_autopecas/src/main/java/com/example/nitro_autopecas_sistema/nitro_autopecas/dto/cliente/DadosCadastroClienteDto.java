@@ -2,6 +2,7 @@ package com.example.nitro_autopecas_sistema.nitro_autopecas.dto.cliente;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Pattern;
 import org.hibernate.validator.constraints.br.CPF;
 
 public record DadosCadastroClienteDto(
@@ -20,6 +21,11 @@ public record DadosCadastroClienteDto(
         String email,
 
         @NotBlank(message = "A senha é obrigatória!")
-        String senha
+        String senha,
+
+        @NotBlank @Pattern(regexp = "\\d{8}", message = "O CEP deve ter 8 dígitos")
+        String cep,
+        @NotBlank String numero,
+        String complementoDaCasa
 ) {
 }

@@ -8,6 +8,14 @@ public record DadosDetalhamentoClienteDto(
         String cpf,
         String contato,
         String email,
+        String cep,
+        String logradouro,
+        String numero,
+        String complemento,
+        String bairro,
+        String cidade,
+        String estado,
+
         Boolean ativo
 ) {
     public DadosDetalhamentoClienteDto(Cliente cliente) {
@@ -17,6 +25,14 @@ public record DadosDetalhamentoClienteDto(
                 cliente.getCpf(),
                 cliente.getContato(),
                 cliente.getEmail(),
+                cliente.getCep(),
+                cliente.getLogradouro(),
+                cliente.getNumero(),
+                cliente.getComplemento(),
+                cliente.getBairro(),
+                cliente.getCidade(),
+                cliente.getEstado(),
+
                 cliente.getAtivo()
         );
     }

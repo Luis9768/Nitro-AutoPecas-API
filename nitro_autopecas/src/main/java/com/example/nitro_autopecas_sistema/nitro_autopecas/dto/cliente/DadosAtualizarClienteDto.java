@@ -1,7 +1,6 @@
 package com.example.nitro_autopecas_sistema.nitro_autopecas.dto.cliente;
 
 import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotBlank;
 import org.hibernate.validator.constraints.br.CPF;
 
 public record DadosAtualizarClienteDto(
@@ -15,6 +14,11 @@ public record DadosAtualizarClienteDto(
         @Email(message = "O e-mail deve ser válido!")
         String email,
 
-        String senha
+        String senha,
+        String cep,
+        String numeroResidencia,
+        String complemento
+
+
 ) {
 }
