@@ -26,7 +26,13 @@ public record DadosDetalhamentoFuncionarioDto(
         BigDecimal salario,
 
         LocalDate dataAdmissao,
-
+        String cep,
+        String logradouro,
+        String numero,
+        String complemento,
+        String bairro,
+        String cidade,
+        String estado,
         Boolean ativo
         ) {
     public DadosDetalhamentoFuncionarioDto(Funcionario funcionario) {
@@ -39,7 +45,13 @@ public record DadosDetalhamentoFuncionarioDto(
                 funcionario.getCargo(),
                 funcionario.getSalario(),
                 funcionario.getDataAdmissao(),
-                funcionario.getAtivo()
+                funcionario.getCep(),
+                funcionario.getLogradouro(),
+                funcionario.getNumero(),
+                funcionario.getComplemento(),
+                funcionario.getBairro(),
+                funcionario.getCidade(),
+                funcionario.getEstado(),                funcionario.getAtivo()
         );
     }
 }

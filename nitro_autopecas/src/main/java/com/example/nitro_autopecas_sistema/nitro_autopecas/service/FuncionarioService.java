@@ -3,7 +3,9 @@ package com.example.nitro_autopecas_sistema.nitro_autopecas.service;
 import com.example.nitro_autopecas_sistema.nitro_autopecas.dto.funcionario.DadosAtualizarFuncionarioDto;
 import com.example.nitro_autopecas_sistema.nitro_autopecas.dto.funcionario.DadosCadastroFuncionarioDto;
 import com.example.nitro_autopecas_sistema.nitro_autopecas.dto.funcionario.DadosDetalhamentoFuncionarioDto;
+import com.example.nitro_autopecas_sistema.nitro_autopecas.dto.viaCepDto.ViaCepDto;
 import com.example.nitro_autopecas_sistema.nitro_autopecas.entity.*;
+import com.example.nitro_autopecas_sistema.nitro_autopecas.infra.client.ViaCepClient;
 import com.example.nitro_autopecas_sistema.nitro_autopecas.repository.CargoRepository;
 import com.example.nitro_autopecas_sistema.nitro_autopecas.repository.FuncionarioRepository;
 import com.example.nitro_autopecas_sistema.nitro_autopecas.repository.UsuarioLoginRepository;
@@ -26,6 +28,8 @@ public class FuncionarioService {
     @Autowired
     private PasswordEncoder passwordEncoder;
     @Autowired
+    private ViaCepClient viaCepClient;
+    @Autowired
     private CargoRepository cargoRepository;
 
     @Transactional
@@ -42,6 +46,14 @@ public class FuncionarioService {
         if (repository.existsByContato(dto.contato())) {
             throw new IllegalArgumentException("Já existe um funcionário cadastrado com este Contato!");
         }
+
+        String cepLimpo = dto.cep().replaceAll("[^0-9]", "");
+
+        ViaCepDto enderecoApi = viaCepClient.buscarEnderecoPorCep(cepLimpo);
+        if(enderecoApi == null){
+            throw new IllegalArgumentException("CEP não existe!");
+        }
+
         Cargo cargo = cargoRepository.findById(dto.cargoId()).orElseThrow(() -> new EntityNotFoundException("Cargo não encontrado."));
 
         Usuario usuario = new Usuario();
@@ -61,6 +73,13 @@ public class FuncionarioService {
         funcionario.setCargo(cargo);
         funcionario.setSalario(dto.salario());
         funcionario.setDataAdmissao(LocalDate.now());
+        funcionario.setCep(cepLimpo);
+        funcionario.setLogradouro(enderecoApi.logradouro());
+        funcionario.setBairro(enderecoApi.bairro());
+        funcionario.setCidade(enderecoApi.localidade());
+        funcionario.setEstado(enderecoApi.uf());
+        funcionario.setNumero(dto.numero());
+        funcionario.setComplemento(dto.complementoDaCasa() != null ? dto.complementoDaCasa() : enderecoApi.complemento());
         funcionario.setUsuario(usuario);
         funcionario.setAtivo(true);
         repository.save(funcionario);

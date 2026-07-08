@@ -10,6 +10,7 @@ import com.example.nitro_autopecas_sistema.nitro_autopecas.entity.Usuario;
 import com.example.nitro_autopecas_sistema.nitro_autopecas.infra.client.ViaCepClient;
 import com.example.nitro_autopecas_sistema.nitro_autopecas.repository.ClienteRepository;
 import com.example.nitro_autopecas_sistema.nitro_autopecas.repository.UsuarioLoginRepository;
+import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -140,7 +141,7 @@ public class ClienteService {
     public void excluirUsuarioId(Long idAlvo, Usuario usuarioLogado) {
 
         Cliente clienteAlvo = repository.findById(idAlvo)
-                .orElseThrow(() -> new IllegalArgumentException("Cliente não encontrado!"));
+                .orElseThrow(() -> new EntityNotFoundException("Cliente não encontrado!"));
 
         Usuario usuarioAlvo = clienteAlvo.getUsuario();
 /*
