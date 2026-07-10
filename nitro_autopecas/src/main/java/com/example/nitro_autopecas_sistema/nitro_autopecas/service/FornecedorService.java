@@ -34,6 +34,16 @@ public class FornecedorService {
         BrasilApiCnpjDto dadosDaApi = brasilApiClient.buscarDadosPorCnpj(cnpjLimpo);
 
         Fornecedor fornecedor = new Fornecedor(dadosDaApi);
+
+        fornecedor.setNomeFantasia(
+                dadosDaApi.nomeFantasia() == null || dadosDaApi.nomeFantasia().isBlank()
+                        ? dadosDaApi.razaoSocial()
+                        : dadosDaApi.nomeFantasia());
+        fornecedor.setEmail(
+                dadosDaApi.email() == null
+                        ? "Não cadastrado."
+                        : dadosDaApi.email()
+        );
         fornecedor.setCnpj(cnpjLimpo);
 
         return repository.save(fornecedor);
