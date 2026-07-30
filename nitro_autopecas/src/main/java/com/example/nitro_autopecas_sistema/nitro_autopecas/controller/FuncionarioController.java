@@ -1,10 +1,8 @@
 package com.example.nitro_autopecas_sistema.nitro_autopecas.controller;
 
-import com.example.nitro_autopecas_sistema.nitro_autopecas.dto.cliente.DadosAtualizarClienteDto;
-import com.example.nitro_autopecas_sistema.nitro_autopecas.dto.cliente.DadosDetalhamentoClienteDto;
-import com.example.nitro_autopecas_sistema.nitro_autopecas.dto.funcionario.DadosAtualizarFuncionarioDto;
-import com.example.nitro_autopecas_sistema.nitro_autopecas.dto.funcionario.DadosCadastroFuncionarioDto;
-import com.example.nitro_autopecas_sistema.nitro_autopecas.dto.funcionario.DadosDetalhamentoFuncionarioDto;
+import com.example.nitro_autopecas_sistema.nitro_autopecas.dto.funcionarioDto.DadosAtualizarFuncionarioDto;
+import com.example.nitro_autopecas_sistema.nitro_autopecas.dto.funcionarioDto.DadosCadastroFuncionarioDto;
+import com.example.nitro_autopecas_sistema.nitro_autopecas.dto.funcionarioDto.DadosDetalhamentoFuncionarioDto;
 import com.example.nitro_autopecas_sistema.nitro_autopecas.entity.Usuario;
 import com.example.nitro_autopecas_sistema.nitro_autopecas.service.FuncionarioService;
 import jakarta.validation.Valid;

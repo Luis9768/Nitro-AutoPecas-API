@@ -1,8 +1,8 @@
 package com.example.nitro_autopecas_sistema.nitro_autopecas.service;
 
-import com.example.nitro_autopecas_sistema.nitro_autopecas.dto.cliente.DadosAtualizarClienteDto;
-import com.example.nitro_autopecas_sistema.nitro_autopecas.dto.cliente.DadosCadastroClienteDto;
-import com.example.nitro_autopecas_sistema.nitro_autopecas.dto.cliente.DadosDetalhamentoClienteDto;
+import com.example.nitro_autopecas_sistema.nitro_autopecas.dto.clienteDto.DadosAtualizarClienteDto;
+import com.example.nitro_autopecas_sistema.nitro_autopecas.dto.clienteDto.DadosCadastroClienteDto;
+import com.example.nitro_autopecas_sistema.nitro_autopecas.dto.clienteDto.DadosDetalhamentoClienteDto;
 import com.example.nitro_autopecas_sistema.nitro_autopecas.dto.viaCepDto.ViaCepDto;
 import com.example.nitro_autopecas_sistema.nitro_autopecas.entity.Cliente;
 import com.example.nitro_autopecas_sistema.nitro_autopecas.entity.Perfil;
@@ -79,7 +79,7 @@ public class ClienteService {
     }
     @Transactional
     public DadosDetalhamentoClienteDto atualizar(Long id, DadosAtualizarClienteDto dto, Usuario usuarioLogado) {
-        Cliente clienteAntigo = repository.findById(id).orElseThrow(() -> new IllegalArgumentException("Cliente para atualizar não encontrado!"));
+        Cliente clienteAntigo = repository.findById(id).orElseThrow(() -> new EntityNotFoundException("Cliente para atualizar não encontrado!"));
 
         boolean ehDono = clienteAntigo.getUsuario().getId().equals(usuarioLogado.getId());
         if (!ehDono) {

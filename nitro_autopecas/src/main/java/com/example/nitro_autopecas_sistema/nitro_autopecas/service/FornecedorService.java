@@ -1,9 +1,9 @@
 package com.example.nitro_autopecas_sistema.nitro_autopecas.service;
 
 
-import com.example.nitro_autopecas_sistema.nitro_autopecas.dto.fornecedor.BrasilApiCnpjDto;
-import com.example.nitro_autopecas_sistema.nitro_autopecas.dto.fornecedor.DadosCadastroFornecedorDto;
-import com.example.nitro_autopecas_sistema.nitro_autopecas.dto.fornecedor.DadosDetalhamentoFornecedorDto;
+import com.example.nitro_autopecas_sistema.nitro_autopecas.dto.fornecedorDto.BrasilApiCnpjDto;
+import com.example.nitro_autopecas_sistema.nitro_autopecas.dto.fornecedorDto.DadosCadastroFornecedorDto;
+import com.example.nitro_autopecas_sistema.nitro_autopecas.dto.fornecedorDto.DadosDetalhamentoFornecedorDto;
 import com.example.nitro_autopecas_sistema.nitro_autopecas.entity.Fornecedor;
 import com.example.nitro_autopecas_sistema.nitro_autopecas.repository.FornecedorRepository;
 import jakarta.persistence.EntityNotFoundException;

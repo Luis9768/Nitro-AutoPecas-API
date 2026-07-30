@@ -1,17 +1,14 @@
 package com.example.nitro_autopecas_sistema.nitro_autopecas.controller;
 
-import com.example.nitro_autopecas_sistema.nitro_autopecas.dto.cargoDto.DadosDetalhamentoCargoDto;
-import com.example.nitro_autopecas_sistema.nitro_autopecas.dto.fornecedor.DadosCadastroFornecedorDto;
-import com.example.nitro_autopecas_sistema.nitro_autopecas.dto.fornecedor.DadosDetalhamentoFornecedorDto;
+import com.example.nitro_autopecas_sistema.nitro_autopecas.dto.fornecedorDto.DadosCadastroFornecedorDto;
+import com.example.nitro_autopecas_sistema.nitro_autopecas.dto.fornecedorDto.DadosDetalhamentoFornecedorDto;
 import com.example.nitro_autopecas_sistema.nitro_autopecas.entity.Fornecedor;
-import com.example.nitro_autopecas_sistema.nitro_autopecas.entity.Usuario;
 import com.example.nitro_autopecas_sistema.nitro_autopecas.service.FornecedorService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;

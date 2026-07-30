@@ -21,7 +21,7 @@ public class Usuario implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
+    //lembrar de usar UUID mais pra frente
     private String login;
     private String senha;
     private Boolean ativo;

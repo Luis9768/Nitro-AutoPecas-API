@@ -1,6 +1,6 @@
 package com.example.nitro_autopecas_sistema.nitro_autopecas.infra.client;
 
-import com.example.nitro_autopecas_sistema.nitro_autopecas.dto.fornecedor.BrasilApiCnpjDto;
+import com.example.nitro_autopecas_sistema.nitro_autopecas.dto.fornecedorDto.BrasilApiCnpjDto;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.service.annotation.GetExchange;
 import org.springframework.web.service.annotation.HttpExchange;

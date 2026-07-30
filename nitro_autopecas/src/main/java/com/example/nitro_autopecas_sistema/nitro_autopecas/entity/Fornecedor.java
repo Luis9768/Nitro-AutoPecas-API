@@ -1,7 +1,7 @@
 package com.example.nitro_autopecas_sistema.nitro_autopecas.entity;
 
 
-import com.example.nitro_autopecas_sistema.nitro_autopecas.dto.fornecedor.BrasilApiCnpjDto;
+import com.example.nitro_autopecas_sistema.nitro_autopecas.dto.fornecedorDto.BrasilApiCnpjDto;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.SQLDelete;

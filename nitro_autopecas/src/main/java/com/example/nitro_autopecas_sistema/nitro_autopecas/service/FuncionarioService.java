@@ -1,8 +1,8 @@
 package com.example.nitro_autopecas_sistema.nitro_autopecas.service;
 
-import com.example.nitro_autopecas_sistema.nitro_autopecas.dto.funcionario.DadosAtualizarFuncionarioDto;
-import com.example.nitro_autopecas_sistema.nitro_autopecas.dto.funcionario.DadosCadastroFuncionarioDto;
-import com.example.nitro_autopecas_sistema.nitro_autopecas.dto.funcionario.DadosDetalhamentoFuncionarioDto;
+import com.example.nitro_autopecas_sistema.nitro_autopecas.dto.funcionarioDto.DadosAtualizarFuncionarioDto;
+import com.example.nitro_autopecas_sistema.nitro_autopecas.dto.funcionarioDto.DadosCadastroFuncionarioDto;
+import com.example.nitro_autopecas_sistema.nitro_autopecas.dto.funcionarioDto.DadosDetalhamentoFuncionarioDto;
 import com.example.nitro_autopecas_sistema.nitro_autopecas.dto.viaCepDto.ViaCepDto;
 import com.example.nitro_autopecas_sistema.nitro_autopecas.entity.*;
 import com.example.nitro_autopecas_sistema.nitro_autopecas.infra.client.ViaCepClient;
@@ -99,7 +99,7 @@ public class FuncionarioService {
     @Transactional
 
     public DadosDetalhamentoFuncionarioDto atualizar(Long id, DadosAtualizarFuncionarioDto dto, Usuario usuarioLogado) {
-        Funcionario funcionarioBanco = repository.findById(id).orElseThrow(() -> new IllegalArgumentException("Cliente para atualizar não encontrado!"));
+        Funcionario funcionarioBanco = repository.findById(id).orElseThrow(() -> new EntityNotFoundException("Cliente para atualizar não encontrado!"));
         boolean ehDono = funcionarioBanco.getUsuario().getId().equals(usuarioLogado.getId());
         if (!ehDono) {
             throw new IllegalArgumentException("Você não pode alterar os dados de outra pessoa!");
@@ -136,7 +136,7 @@ public class FuncionarioService {
     public void excluirUsuarioId(Long idAlvo, Usuario usuarioLogado) {
 
         Funcionario funcionarioAlvo = repository.findById(idAlvo)
-                .orElseThrow(() -> new IllegalArgumentException("Cliente não encontrado!"));
+                .orElseThrow(() -> new EntityNotFoundException("Cliente não encontrado!"));
 
         Usuario usuarioAlvo = funcionarioAlvo.getUsuario();
 
@@ -162,7 +162,7 @@ public class FuncionarioService {
     }
     public DadosDetalhamentoFuncionarioDto buscarPorId(Long id, Usuario usuarioLogado){
         boolean ehAdmin = usuarioLogado.getPerfil() == Perfil.FUNCIONARIO;
-        Funcionario funcionarioBanco = repository.findById(id).orElseThrow(() -> new IllegalArgumentException("Funcionario não encontrado!"));
+        Funcionario funcionarioBanco = repository.findById(id).orElseThrow(() -> new EntityNotFoundException("Funcionario não encontrado!"));
         boolean ehDono = funcionarioBanco.getUsuario().getId().equals(usuarioLogado.getId());
         if (!ehAdmin && !ehDono) {
             throw new IllegalArgumentException("Você não tem permissão para realizar esta ação!");

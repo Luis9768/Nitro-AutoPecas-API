@@ -7,6 +7,8 @@ import com.example.nitro_autopecas_sistema.nitro_autopecas.repository.CategoriaR
 import com.sun.jdi.request.DuplicateRequestException;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -16,15 +18,17 @@ public class CategoriaService {
     @Autowired
     CategoriaRepository repository;
 
+    @CacheEvict(value = "categorias", allEntries = true)
     public DadosDetalhamentoCategoriaDto adicionar(DadosCadastroCategoriaDto dto){
         Categoria categoria = new Categoria();
-        if(categoria.getNome().equals(dto.nome())){
+        if(repository.existsByNome(dto.nome())){
             throw new DuplicateRequestException("Já existe uma categoria cadastrada com esse nome.");
         }
         categoria.setNome(dto.nome());
         repository.save(categoria);
         return new DadosDetalhamentoCategoriaDto(categoria);
     }
+    @CacheEvict(value = "categorias", allEntries = true)
     public DadosDetalhamentoCategoriaDto atualizar(Long id, DadosCadastroCategoriaDto dto){
         Categoria categoriaBanco = repository.findById(id).orElseThrow(() -> new EntityNotFoundException("Categoria não encontrada."));
         if(categoriaBanco.getNome().equals(dto.nome())){
@@ -34,9 +38,13 @@ public class CategoriaService {
         repository.save(categoriaBanco);
         return new DadosDetalhamentoCategoriaDto(categoriaBanco);
     }
-    public List<DadosDetalhamentoCategoriaDto> listar(){
-        return repository.findAll().stream().map(DadosDetalhamentoCategoriaDto::new).toList();
+    @Cacheable(value = "categorias")
+    public List<DadosDetalhamentoCategoriaDto> listar() {
+        return repository.findAll().stream()
+                .map(DadosDetalhamentoCategoriaDto::new)
+                .toList();
     }
+    @CacheEvict(value = "categorias", allEntries = true)
     public void inativar(Long id){
         Categoria categoriaBanco = repository.findById(id).orElseThrow(() -> new EntityNotFoundException("Categoria não encontrada."));
         categoriaBanco.setAtivo(false);
