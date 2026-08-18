@@ -6,6 +6,7 @@ import jakarta.validation.constraints.Positive;
 import jakarta.validation.constraints.PositiveOrZero;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 public record DadosCadastroPecaDto(
 
@@ -41,6 +42,8 @@ public record DadosCadastroPecaDto(
         Integer quantidadeMaxima,
 
         @NotNull(message = "O ID da categoria é obrigatório.")
-        Long categoriaId
+        Long categoriaId,
+
+        List<Long>fornecedoresIds
 ) {
 }

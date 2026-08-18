@@ -4,8 +4,12 @@ import com.example.nitro_autopecas_sistema.nitro_autopecas.dto.pecaDto.DadosAtua
 import com.example.nitro_autopecas_sistema.nitro_autopecas.dto.pecaDto.DadosCadastroPecaDto;
 import com.example.nitro_autopecas_sistema.nitro_autopecas.dto.pecaDto.DadosDetalhamentoPecaDto;
 import com.example.nitro_autopecas_sistema.nitro_autopecas.entity.Categoria;
+import com.example.nitro_autopecas_sistema.nitro_autopecas.entity.Fornecedor;
 import com.example.nitro_autopecas_sistema.nitro_autopecas.entity.Peca;
+import com.example.nitro_autopecas_sistema.nitro_autopecas.entity.PecaFornecedor;
 import com.example.nitro_autopecas_sistema.nitro_autopecas.repository.CategoriaRepository;
+import com.example.nitro_autopecas_sistema.nitro_autopecas.repository.FornecedorRepository;
+import com.example.nitro_autopecas_sistema.nitro_autopecas.repository.PecaFornecedorRepository;
 import com.example.nitro_autopecas_sistema.nitro_autopecas.repository.PecaRepository;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +28,10 @@ public class PecaService {
     PecaRepository repository;
     @Autowired
     CategoriaRepository categoriaRepository;
+    @Autowired
+    private PecaFornecedorRepository pecaFornecedorRepository;
+    @Autowired
+    private FornecedorRepository fornecedorRepository;
 
     @Transactional
     @CacheEvict(value = "pecas", allEntries = true)
@@ -46,11 +54,21 @@ public class PecaService {
         peca.setQuantidadeMaxima(dto.quantidadeMaxima());
         peca.setQuantidadeMinima(dto.quantidadeMinima());
         peca.setQuantidadeEstoque(dto.quantidadeEstoque());
-
         peca.setCategoria(categoria);
-
         Peca pecaSalva = repository.save(peca);
+        if (dto.fornecedoresIds() != null && !dto.fornecedoresIds().isEmpty()) {
+            for (Long fornecedorId : dto.fornecedoresIds()) {
 
+                Fornecedor fornecedor = fornecedorRepository.findById(fornecedorId)
+                        .orElseThrow(() -> new IllegalArgumentException("Fornecedor não encontrado: " + fornecedorId));
+
+                PecaFornecedor pecaFornecedor = new PecaFornecedor();
+                pecaFornecedor.setPeca(pecaSalva);
+                pecaFornecedor.setFornecedor(fornecedor);
+
+                pecaFornecedorRepository.save(pecaFornecedor);
+            }
+        }
         return new DadosDetalhamentoPecaDto(pecaSalva);
     }
     @Cacheable(value = "pecas", key = "'listar_todas'")
@@ -178,8 +196,4 @@ public class PecaService {
                 .map(DadosDetalhamentoPecaDto::new)
                 .toList();
     }
-
-
-
-
 }
