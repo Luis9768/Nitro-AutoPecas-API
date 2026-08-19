@@ -28,7 +28,7 @@ public class TokenService {
             return JWT.create()
                     .withIssuer("API NitroAutopecas")
                     .withSubject(usuario.getLogin())
-                    .withClaim("id",usuario.getId())
+                    .withClaim("id", usuario.getId().toString())
                     .withClaim("role",perfilString)
                     .withExpiresAt(dataExpiracao())
                     .sign(algoritmo);

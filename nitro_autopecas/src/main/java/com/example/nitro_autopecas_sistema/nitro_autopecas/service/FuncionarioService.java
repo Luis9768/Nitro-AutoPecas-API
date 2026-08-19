@@ -18,6 +18,7 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
 public class FuncionarioService {
@@ -98,7 +99,7 @@ public class FuncionarioService {
 
     @Transactional
 
-    public DadosDetalhamentoFuncionarioDto atualizar(Long id, DadosAtualizarFuncionarioDto dto, Usuario usuarioLogado) {
+    public DadosDetalhamentoFuncionarioDto atualizar(UUID id, DadosAtualizarFuncionarioDto dto, Usuario usuarioLogado) {
         Funcionario funcionarioBanco = repository.findById(id).orElseThrow(() -> new EntityNotFoundException("Cliente para atualizar não encontrado!"));
         boolean ehDono = funcionarioBanco.getUsuario().getId().equals(usuarioLogado.getId());
         if (!ehDono) {
@@ -133,7 +134,7 @@ public class FuncionarioService {
     }
 
     @Transactional
-    public void excluirUsuarioId(Long idAlvo, Usuario usuarioLogado) {
+    public void excluirUsuarioId(UUID idAlvo, Usuario usuarioLogado) {
 
         Funcionario funcionarioAlvo = repository.findById(idAlvo)
                 .orElseThrow(() -> new EntityNotFoundException("Cliente não encontrado!"));
@@ -160,7 +161,7 @@ public class FuncionarioService {
             throw new IllegalArgumentException("Você não tem permissão para pesquisar usuários!");
         }
     }
-    public DadosDetalhamentoFuncionarioDto buscarPorId(Long id, Usuario usuarioLogado){
+    public DadosDetalhamentoFuncionarioDto buscarPorId(UUID  id, Usuario usuarioLogado){
         boolean ehAdmin = usuarioLogado.getPerfil() == Perfil.FUNCIONARIO;
         Funcionario funcionarioBanco = repository.findById(id).orElseThrow(() -> new EntityNotFoundException("Funcionario não encontrado!"));
         boolean ehDono = funcionarioBanco.getUsuario().getId().equals(usuarioLogado.getId());

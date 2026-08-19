@@ -18,6 +18,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
 public class ClienteService {
@@ -78,7 +79,7 @@ public class ClienteService {
         return new DadosDetalhamentoClienteDto(cliente);
     }
     @Transactional
-    public DadosDetalhamentoClienteDto atualizar(Long id, DadosAtualizarClienteDto dto, Usuario usuarioLogado) {
+    public DadosDetalhamentoClienteDto atualizar(UUID id, DadosAtualizarClienteDto dto, Usuario usuarioLogado) {
         Cliente clienteAntigo = repository.findById(id).orElseThrow(() -> new EntityNotFoundException("Cliente para atualizar não encontrado!"));
 
         boolean ehDono = clienteAntigo.getUsuario().getId().equals(usuarioLogado.getId());
@@ -138,7 +139,7 @@ public class ClienteService {
         return new DadosDetalhamentoClienteDto(clienteAntigo);
     }
     @Transactional
-    public void excluirUsuarioId(Long idAlvo, Usuario usuarioLogado) {
+    public void excluirUsuarioId(UUID idAlvo, Usuario usuarioLogado) {
 
         Cliente clienteAlvo = repository.findById(idAlvo)
                 .orElseThrow(() -> new EntityNotFoundException("Cliente não encontrado!"));

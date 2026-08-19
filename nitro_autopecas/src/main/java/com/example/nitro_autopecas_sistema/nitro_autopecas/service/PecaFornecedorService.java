@@ -18,15 +18,12 @@ public class PecaFornecedorService {
     @Autowired
     PecaFornecedorRepository repository;
 
-    @Cacheable(value = "pecas_fornecedor", key = "'listar_todas'")
+    //@Cacheable(value = "pecas_fornecedor", key = "'listar_todas'")
     public List<DadosDetalhamentoPecaFornecedorDto> listar(){
         return repository.findAll().stream()
                 .map(DadosDetalhamentoPecaFornecedorDto::new)
                 .toList();
     }
-//    @Transactional
-//    @CacheEvict(value = "pecas_fornecedor", allEntries = true)
-//    public DadosCadastroPecaFornecedorDto adicionar(){
-//    }
+
 
 }

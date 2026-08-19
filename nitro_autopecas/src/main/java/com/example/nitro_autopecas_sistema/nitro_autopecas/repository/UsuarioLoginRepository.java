@@ -3,7 +3,9 @@ import com.example.nitro_autopecas_sistema.nitro_autopecas.entity.Usuario;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.security.core.userdetails.UserDetails;
 
-public interface UsuarioLoginRepository extends JpaRepository<Usuario, Long> {
+import java.util.UUID;
+
+public interface UsuarioLoginRepository extends JpaRepository<Usuario, UUID> {
     UserDetails findByLogin(String login);
     boolean existsByLogin(String login);
 }

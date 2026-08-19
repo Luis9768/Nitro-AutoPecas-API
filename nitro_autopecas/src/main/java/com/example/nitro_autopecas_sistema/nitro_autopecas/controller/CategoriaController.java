@@ -25,12 +25,12 @@ public class CategoriaController {
         DadosDetalhamentoCategoriaDto categoria = service.adicionar(dto);
         return ResponseEntity.status(HttpStatus.CREATED).body(categoria);
     }
-    @PutMapping
+    @PutMapping("/{id}")
     public ResponseEntity<DadosDetalhamentoCategoriaDto> atualizar(@PathVariable Long id, @RequestBody DadosCadastroCategoriaDto dto){
         DadosDetalhamentoCategoriaDto categoria = service.atualizar(id,dto);
         return ResponseEntity.ok(categoria);
     }
-    @DeleteMapping("/id")
+    @DeleteMapping("/{id}")
     public ResponseEntity<Void> inativar(@PathVariable Long id){
         service.inativar(id);
         return ResponseEntity.noContent().build();

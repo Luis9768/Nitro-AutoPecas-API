@@ -13,6 +13,7 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/funcionario")
@@ -31,7 +32,7 @@ public class FuncionarioController {
         return ResponseEntity.ok(service.listar(usuario));
     }
     @PutMapping("/{id}")
-    public ResponseEntity<DadosDetalhamentoFuncionarioDto> atualizarDados(@PathVariable Long id, @Valid @RequestBody DadosAtualizarFuncionarioDto dto, @AuthenticationPrincipal Usuario usuarioLogado) {
+    public ResponseEntity<DadosDetalhamentoFuncionarioDto> atualizarDados(@PathVariable UUID id, @Valid @RequestBody DadosAtualizarFuncionarioDto dto, @AuthenticationPrincipal Usuario usuarioLogado) {
         DadosDetalhamentoFuncionarioDto usuarioAtualizado = service.atualizar(id, dto, usuarioLogado);
         if (usuarioAtualizado == null) {
             return ResponseEntity.notFound().build();
@@ -39,7 +40,7 @@ public class FuncionarioController {
         return ResponseEntity.ok(usuarioAtualizado);
     }
     @GetMapping("/{id}")
-    public ResponseEntity<DadosDetalhamentoFuncionarioDto> buscarPorId(@PathVariable Long id, @AuthenticationPrincipal Usuario usuarioLogado){
+    public ResponseEntity<DadosDetalhamentoFuncionarioDto> buscarPorId(@PathVariable UUID id, @AuthenticationPrincipal Usuario usuarioLogado){
         DadosDetalhamentoFuncionarioDto listarId = service.buscarPorId(id, usuarioLogado);
         return ResponseEntity.ok(listarId);
     }
@@ -48,6 +49,10 @@ public class FuncionarioController {
     public ResponseEntity<List<DadosDetalhamentoFuncionarioDto>> buscarClienteNome (@PathVariable String nome, @AuthenticationPrincipal Usuario usuarioLogado){
         List<DadosDetalhamentoFuncionarioDto> buscarNome = service.pesquisarPorNome(nome,  usuarioLogado);
         return ResponseEntity.ok(buscarNome);
+    }
+    @DeleteMapping("/{id}")
+    public void intivar(@PathVariable UUID id,@AuthenticationPrincipal Usuario usuarioLogado){
+        service.excluirUsuarioId(id,usuarioLogado);
     }
 
 

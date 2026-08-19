@@ -6,6 +6,7 @@ import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.SQLRestriction;
 
 import java.time.LocalDate;
+import java.util.UUID;
 
 @Entity
 @Table(name = "cliente")
@@ -19,8 +20,8 @@ import java.time.LocalDate;
 public class Cliente {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @GeneratedValue(strategy = GenerationType.UUID)
+    private UUID id;
 
 
     @Column(nullable = false)

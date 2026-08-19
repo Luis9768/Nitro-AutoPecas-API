@@ -6,10 +6,11 @@ import com.example.nitro_autopecas_sistema.nitro_autopecas.entity.Funcionario;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.UUID;
 
 public record DadosDetalhamentoFuncionarioDto(
 
-        Long id,
+        UUID id,
 
         String nome,
 

@@ -13,6 +13,7 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/cliente")
@@ -28,7 +29,7 @@ public class ClienteController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<DadosDetalhamentoClienteDto> atualizarDados(@PathVariable Long id, @Valid @RequestBody DadosAtualizarClienteDto dto, @AuthenticationPrincipal Usuario usuarioLogado) {
+    public ResponseEntity<DadosDetalhamentoClienteDto> atualizarDados(@PathVariable UUID id, @Valid @RequestBody DadosAtualizarClienteDto dto, @AuthenticationPrincipal Usuario usuarioLogado) {
         DadosDetalhamentoClienteDto usuarioAtualizado = service.atualizar(id, dto, usuarioLogado);
         if (usuarioAtualizado == null) {
             return ResponseEntity.notFound().build();
@@ -37,7 +38,7 @@ public class ClienteController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deletarUsuario(@PathVariable Long id, @AuthenticationPrincipal Usuario usuarioLogado) {
+    public ResponseEntity<Void> deletarUsuario(@PathVariable UUID id, @AuthenticationPrincipal Usuario usuarioLogado) {
         service.excluirUsuarioId(id, usuarioLogado);
         return ResponseEntity.noContent().build();
     }

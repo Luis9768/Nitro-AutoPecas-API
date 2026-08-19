@@ -3,9 +3,10 @@ package com.example.nitro_autopecas_sistema.nitro_autopecas.dto.clienteDto;
 import com.example.nitro_autopecas_sistema.nitro_autopecas.entity.Cliente;
 
 import java.io.Serializable;
+import java.util.UUID;
 
 public record DadosDetalhamentoClienteDto(
-        Long id,
+        UUID id,
         String nome,
         String cpf,
         String contato,

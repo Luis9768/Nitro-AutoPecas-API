@@ -42,7 +42,7 @@ public class PecaService {
         }
 
         Categoria categoria = categoriaRepository.findById(dto.categoriaId())
-                .orElseThrow(() -> new IllegalArgumentException("Categoria não encontrada para o ID informado."));
+                .orElseThrow(() -> new EntityNotFoundException("Categoria não encontrada para o ID informado."));
 
         Peca peca = new Peca();
         peca.setNome(dto.nome());
@@ -55,17 +55,18 @@ public class PecaService {
         peca.setQuantidadeMinima(dto.quantidadeMinima());
         peca.setQuantidadeEstoque(dto.quantidadeEstoque());
         peca.setCategoria(categoria);
+        peca.setAtivo(true);
         Peca pecaSalva = repository.save(peca);
         if (dto.fornecedoresIds() != null && !dto.fornecedoresIds().isEmpty()) {
             for (Long fornecedorId : dto.fornecedoresIds()) {
 
                 Fornecedor fornecedor = fornecedorRepository.findById(fornecedorId)
-                        .orElseThrow(() -> new IllegalArgumentException("Fornecedor não encontrado: " + fornecedorId));
+                        .orElseThrow(() -> new EntityNotFoundException("Fornecedor não encontrado: " + fornecedorId));
 
                 PecaFornecedor pecaFornecedor = new PecaFornecedor();
                 pecaFornecedor.setPeca(pecaSalva);
                 pecaFornecedor.setFornecedor(fornecedor);
-
+                pecaFornecedor.setCodigoReferenciaFornecedor(dto.codigoFabricante());
                 pecaFornecedorRepository.save(pecaFornecedor);
             }
         }
@@ -116,7 +117,8 @@ public class PecaService {
     @Transactional
     @CacheEvict(value = "pecas", allEntries = true)
     public void inativar(Long id){
-        var pecaBanco = repository.findById(id).orElseThrow(() -> new EntityNotFoundException("Peca não encontrada"));
+        var pecaBanco = repository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Peca não encontrada"));
         pecaBanco.setAtivo(false);
     }
     @Transactional

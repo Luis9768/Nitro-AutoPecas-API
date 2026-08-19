@@ -6,6 +6,7 @@ import org.hibernate.annotations.SQLRestriction;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.UUID;
 
 @Entity
 @Table(name = "funcionario")
@@ -18,8 +19,8 @@ import java.time.LocalDate;
 @AllArgsConstructor
 public class Funcionario {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @GeneratedValue(strategy = GenerationType.UUID)
+    private UUID id;
 
     @Column(nullable = false)
     private String nome;
