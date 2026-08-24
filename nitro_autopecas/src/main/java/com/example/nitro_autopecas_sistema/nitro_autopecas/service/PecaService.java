@@ -120,6 +120,7 @@ public class PecaService {
         var pecaBanco = repository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Peca não encontrada"));
         pecaBanco.setAtivo(false);
+        repository.save(pecaBanco);
     }
     @Transactional
     @CacheEvict(value = "pecas", allEntries = true)
