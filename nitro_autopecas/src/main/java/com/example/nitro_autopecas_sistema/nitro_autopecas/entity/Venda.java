@@ -7,6 +7,8 @@ import org.hibernate.annotations.SQLRestriction;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "vendas")
@@ -37,8 +39,12 @@ public class Venda {
     @JoinColumn(name = "funcionario_id", nullable = false)
     private Funcionario funcionario;
 
+    @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private Boolean ativo = true;
+    private StatusVenda status;
+
+    @OneToMany(mappedBy = "venda", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<ItemVenda> itens = new ArrayList<>();
 
     @PrePersist
     public void prePersist() {

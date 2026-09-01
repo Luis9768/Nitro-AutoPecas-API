@@ -1,6 +1,6 @@
 package com.example.nitro_autopecas_sistema.nitro_autopecas.dto.pagamentoDto;
 
-import com.example.nitro_autopecas_sistema.nitro_autopecas.entity.MetodoPagamento;
+
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
@@ -8,18 +8,17 @@ import jakarta.validation.constraints.PositiveOrZero;
 
 import java.math.BigDecimal;
 
-public record CriarPagamentoDto(
+public record DadosCriarPagamentoDto(
         @NotNull(message = "O ID da venda é obrigatório.")
         Long vendaId,
 
-        @NotNull(message = "O método de pagamento é obrigatório.")
-        MetodoPagamento metodoPagamento,
+        @NotNull(message = "O ID do método de pagamento é obrigatório.")
+        Long metodoPagamentoId,
 
-        @NotNull(message = "O valor do pagamento é obrigatório.")
-        @Positive(message = "O valor do pagamento deve ser maior que zero.")
+        @NotNull(message = "O valor pago é obrigatório.")
+        @Positive(message = "O valor deve ser positivo.")
         BigDecimal valorPago,
 
-        // Usamos PositiveOrZero para aceitar 0 ou valores positivos, rejeitando números negativos
         @PositiveOrZero(message = "O valor do desconto não pode ser negativo.")
         BigDecimal desconto,
 
